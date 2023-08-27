@@ -1,0 +1,135 @@
+
+Busca por imagens::
+    docker search nomedaimagem
+    busca padrao
+
+    docker search --limit 6 ubuntu
+    limite de numero de imagens
+
+    docker search --filter start=30 ubuntu
+    parametro de estrela
+
+    docker search --no-trunc=true centos
+    descrição completa da imagem
+
+Baixar imagem::
+    docker pull nomedaimagem
+    versao mais recent
+
+    docker pull nomedaimagem:16.04
+    por versao
+
+    docker pull -a alpine
+    baixa todas as versoes da imagem
+
+Listar as imagens::
+    docker images
+    docker image ls
+
+Remover imagens::
+    docker rm1 nomedaimagem:16.04
+    por nome da imagem
+
+    docker image rm idimafem
+    por id da imagem
+
+    docker image prune -a
+    remove todas imagens
+
+Criando conteiner::
+    docker run -it nomedaimagem
+    o -it criar um terminal interativo no conteiner / se sair da seção este fica parado
+
+    docker run -dit nomedaimagem
+    fica up depois de sair do conteiner
+
+    docker run -dit --name nomeConteiner nomdaimgem
+    criando e nomeando um conteinter
+
+    docker run -it -w /bin --name nomeConteiner nomdaimgem
+    ao iniciar estara no diretorio /bin
+
+    docker run -it -w /bin --env VAR1=valor1 --name nomeConteiner nomdaimgem
+    cria o conteiner com esta variavel / echo $VAR1
+
+Listar conteiners::
+    docker conteiner ls
+    docker ps -a
+
+Altereações de status conteiner::
+    docker start id ou nome
+    inciando um conteiner
+
+    docker pause id ou nome
+    pausa um conteiner up
+
+    docker unpause id ou nome
+    ficar up novamente
+
+    docker stop id ou nome
+    para o conteiner
+
+Remoção de conteiner::
+    docker rm id ou nome
+    remove conteiner
+
+    docker conteiner rm nome ou id
+    remove conteiner
+
+    docker conteiner rm -f nome ou id
+    remove até os up
+
+    docker ps -aq
+    lista os id
+
+    docker rm -f $(docker ps -aq)
+    exclui todos os conteiners
+
+Logs do conteiner
+    docker logs -f nomedoconaiter
+
+Manipulando portas
+
+    docker run -dit --name nome -p 8080:80 nomeimagem
+    8080 porta q nao recebe :80 e a porta do container 
+
+###Criar volume no host para | ponto de montagem | dados persistem apos um rm.
+    Container mysql
+        'docker run -dit \
+        --mount type=volume,src=meumysql,dst=/var/lib/mysql \ #linha ponto de montagem
+        -e MYSQL_ROOT_PASSWORD=root \ #linha senha o banco
+        --name mysql \ 
+        --hostname mysql \
+        mysql:5.6.43 #versao do sql
+        '
+
+
+Acessar conteiner
+    docker exec -it nomedoconteiner bash
+
+Consumo dos containeres
+    docker stats
+
+
+Comandos de MYSQL BASICOS
+    myslq> CREATE DATABASE teampass_db;
+        myslq> CREATE USER 'teampass_user'@'localhost' IDENTIFIED BY '123456';
+        myslq> GRANT ALL PRIVILEGES ON teampass_db.* TO 'teampass_user'@'%' IDENTIFIED BY '123456';
+        mysql> FLUSH PRIVILEGES;
+        mysql> SHOW DATABASES;
+    
+Container temporario
+    quando sair ele n existe mais
+    docker run -it --rm -p 8090:80 centos
+
+Criando para se comununicar com outro container
+     docker run -it --rm --link mysql:db -p 8090:80 centos
+
+Comando Linux
+ps fax 
+
+
+
+
+
+

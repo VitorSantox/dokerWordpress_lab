@@ -1,0 +1,124 @@
+##Cluster REDIS;
+    Orquestração dos containeres com Portainer;
+    Redis cluster em container docker
+
+    CRIAR REDE
+
+        docker network create udemy
+
+        docker network
+
+        docker network create --driver bridge --subnet=192.168.0.0/24 --gateway=192.168.0.1 rede1
+
+        listar docker network ls
+
+        detalhes: docker network inspoect rede1
+
+        criar um conteiner a esta rede1
+        docker network ls
+        docker run -dit --name teste1 --network=rede1 --ip=192.168.0.100 nomedaimagem
+
+        ver as info de ip do docker
+        docker inspect teste 1 | grep -i ipsu
+
+        para remover uma rede
+
+        docker network remove nomedarede
+
+        docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nomeconteiner
+
+        1. Criar a rede do cluster redis
+        rede_redis 172.10.0.0/24 gateway 172.10.0.1
+        2. criar os conteineres do redis
+
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nomeconteiner
+
+
+
+
+##Site em container
+    Entender pipeline atualizar o site em prod com ferramentas
+    Projeto caiq é um exemplo
+
+
+
+
+24/07 homol
+##Teampass 
+
+    Container mysql
+        'docker run -dit \
+        --mount type=volume,src=meumysql,dst=/var/lib/mysql \ #linha ponto de montagem
+        -e MYSQL_ROOT_PASSWORD=root \ #linha senha o banco
+        --name mysql \ 
+        --hostname mysql \
+        mysql:5.6.43 #versao do sql
+        '
+        No container acessar o mysql e criar uma tabela
+        # mysql -root -proot
+        myslq> CREATE DATABASE teampass_db;
+        myslq> CREATE USER 'teampass_user'@'localhost' IDENTIFIED BY '123456';
+        myslq> GRANT ALL PRIVILEGES ON teampass_db.* TO 'teampass_user'@'%' IDENTIFIED BY '123456';
+        mysql> FLUSH PRIVILEGES;
+
+##Wordpress
+
+    Container mysql 
+        ja criado apaenas inserido novo data base e usuario.
+
+    Container do Wordpress    
+        docker run -it --link mysql:db --rm -p 8090:80 centos:7
+        yum update
+        
+        yum-config-manager --disable remi-php54
+        yum-config-manager --anable remi-php72
+        
+        yum install -y httpd
+        yum install -y epel-release yum-utils php php-cli php-mbstring php-gd php-myslqnd php-xmlrpc php-xml php-zip php-curl wget unzip
+        yum-config-manager --enable remi-php72
+        rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+        cd /tmp/
+        wget https://wordpress.org/latest.zip
+        unzip -d /var/www/html/ latest.zip
+        chown apache:apache -R /var/www/html/wordpress/ atribuir doretorios
+
+        vi /etc/httpd/confi.d/wordpress.confi
+            <VirtualHost *:80>
+            ServerAdmin admin@your-domain.com
+            DocumentRoot /var/www/html/wordpress
+            ServerName your-domain.com
+            ServerAlias www.your-domain.com
+
+            Alias /matomo “/var/www/html/wordpress/”
+            <Directory /var/www/html/wordpress/>
+            Options +FollowSymlinks
+            AllowOverride All
+
+            </Directory>
+
+            ErrorLog /var/log/httpd/wordpress-error_log
+            CustomLog /var/log/httpd/wordpress-access_log common
+            </VirtualHost>
+        
+        #Com ps fax eu verifico oq esta em progresso. E possa kill para restart do serviço
+
+        Dockerfile 
+
+        
+
+
+
+        
+
+
+
+
+
+
+
+VM = VirtualBox Linux Ubuntu 
+Rede = subnet 172.10.0.0/24 gateway 172.10.0.1
+
+
