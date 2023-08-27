@@ -104,7 +104,13 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nom
         
         #Com ps fax eu verifico oq esta em progresso. E possa kill para restart do serviço
 
+        
         Dockerfile 
+
+        Depois de confirgurar o Dockerfile e criar a imagem subir o conteiner
+            sudo docker run -dit -p8090:80 --name conteinerwordpress --hostname conteinerwordpress --link mysql:db meuwordpress
+
+            
 
         
 
